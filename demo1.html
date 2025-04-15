@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>诗歌鉴赏互动题</title>
+    <style>
+        body {
+            font-family: "微软雅黑", sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin: 15px 0;
+            padding: 10px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #referenceAnswer {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>诗歌标题鉴赏题</h2>
+        <p><strong>问题：</strong>《使至塞上》标题中的"使"能否删去？请说明理由。</p>
+        
+        <textarea id="answer" placeholder="请在此输入你的分析..."></textarea>
+        
+        <button onclick="checkAnswer()">提交答案</button>
+        
+        <div id="referenceAnswer">
+            <h3>参考答案：</h3>
+            <p>"使"是"出使"之意，不可以删去，因为诗歌中的每一联都体现了王维是出使到边塞。若删去"使"字，"至塞上"就变成了普通游记。但一个"使"字，立即让我们感受到朝廷使命与个人际遇的交织——这正是理解全诗的关键！</p>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer() {
+            // 无论答案是否正确都显示鼓励
+            alert("回答的非常棒！\n请对照参考解析完善理解～");
+            
+            // 显示参考答案
+            document.getElementById("referenceAnswer").style.display = "block";
+            
+            // 可选：自动滚动到参考答案
+            document.getElementById("referenceAnswer").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    </script>
+</body>
+</html>
