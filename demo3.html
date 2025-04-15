@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>计算机病毒防治测试</title>
+    <style>
+        body {
+            font-family: '微软雅黑', Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f0f9ff;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .question {
+            display: none;
+            margin: 20px 0;
+        }
+        .active { display: block; }
+        h2 { color: #2c3e50; border-left: 4px solid #3498db; padding-left: 10px; }
+        input, select, textarea {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            width: 80%;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover { transform: translateY(-2px); }
+        #score {
+            font-size: 24px;
+            color: #27ae60;
+            font-weight: bold;
+            display: none;
+        }
+        .highlight { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>计算机病毒防治能力测试</h1>
+
+        <!-- 题目部分 -->
+        <div id="q1" class="question active">
+            <h2>基础题 ★</h2>
+            <p>计算机病毒的核心特征包括<input type="text" id="a1-1">、<input type="text" id="a1-2">和破坏性。常见的传播途径有<input type="text" id="a1-3">（举一例）。</p>
+        </div>
+
+        <div id="q2" class="question">
+            <h2>基础题 ★</h2>
+            <p>以下哪项是预防计算机病毒的有效措施？</p>
+            <select id="a2">
+                <option value="">请选择答案</option>
+                <option>A 定期格式化硬盘</option>
+                <option>B 安装杀毒软件</option>
+                <option>C 关闭所有网络连接</option>
+                <option>D 禁用鼠标</option>
+            </select>
+        </div>
+
+        <div id="q3" class="question">
+            <h2>进阶题 ★★</h2>
+            <p>2017年"WannaCry"病毒攻击的主要危害是<input type="text" id="a3-1">。该事件提醒我们需定期更新<input type="text" id="a3-2">以修复系统漏洞。</p>
+        </div>
+
+        <div id="q4" class="question">
+            <h2>进阶题 ★★</h2>
+            <p>某程序伪装成游戏外挂，实际窃取用户账号密码。这属于<input type="text" id="a4-1">病毒。其防治需要避免<input type="text" id="a4-2">。</p>
+        </div>
+
+        <div id="q5" class="question">
+            <h2>挑战题 ★★★</h2>
+            <p>假设你负责学校机房的安全防护，请设计包含三个步骤的病毒防治方案：</p>
+            <textarea id="a5" rows="6" placeholder="请输入方案（每步骤用数字标号）"></textarea>
+        </div>
+
+        <button onclick="checkAnswer()">提交答案</button>
+        <button onclick="resetTest()" style="background:#95a5a6; margin-left:15px">重新测试</button>
+        <div id="score"></div>
+    </div>
+
+    <script>
+        let currentQ = 1;
+        let score = 0;
+        const answers = [
+            ["自我复制", "隐蔽性", ["U盘传播","网络下载"]],
+            "B 安装杀毒软件",
+            ["加密文件勒索赎金", "系统补丁"],
+            ["木马", "下载不明文件"],
+            ["防火墙","备份数据","安全培训"]
+        ];
+
+        function checkAnswer() {
+            let isCorrect = false;
+            const inputs = document.querySelectorAll(`#q${currentQ} input, #q${currentQ} select, #q${currentQ} textarea`);
+
+            // 验证逻辑
+            switch(currentQ) {
+                case 1:
+                    const q1Ans = Array.from(inputs).map(i => i.value.trim().toLowerCase());
+                    isCorrect = 
+                        q1Ans[0] === answers[0][0] &&
+                        q1Ans[1] === answers[0][1] &&
+                        answers[0][2].includes(q1Ans[2]);
+                    break;
+                case 2:
+                    isCorrect = inputs[0].value === answers[1];
+                    break;
+                case 3:
+                    const q3Ans = Array.from(inputs).map(i => i.value.trim());
+                    isCorrect = 
+                        q3Ans[0].includes("加密") && 
+                        q3Ans[1] === answers[2][1];
+                    break;
+                case 4:
+                    const q4Ans = Array.from(inputs).map(i => i.value.trim());
+                    isCorrect = 
+                        q4Ans[0] === answers[3][0] && 
+                        q4Ans[1].includes("下载");
+                    break;
+                case 5:
+                    const text = inputs[0].value.toLowerCase();
+                    isCorrect = answers[4].every(k => text.includes(k));
+                    break;
+            }
+
+            // 反馈与跳转
+            if (isCorrect) {
+                score += 20;
+                alert("✓ 回答正确！");
+            } else {
+                alert("✗ 再仔细想想哦！");
+            }
+
+            document.getElementById(`q${currentQ}`).classList.remove('active');
+            if (currentQ < 5) {
+                document.getElementById(`q${++currentQ}`).classList.add('active');
+            } else {
+                document.getElementById('score').innerHTML = `最终得分：<span class="highlight">${score}</span> 分`;
+                document.getElementById('score').style.display = 'block';
+            }
+        }
+
+        function resetTest() {
+            currentQ = 1;
+            score = 0;
+            document.querySelectorAll('.question').forEach(q => {
+                q.classList.remove('active');
+                q.querySelectorAll('input, select, textarea').forEach(e => e.value = '');
+            });
+            document.getElementById('q1').classList.add('active');
+            document.getElementById('score').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
